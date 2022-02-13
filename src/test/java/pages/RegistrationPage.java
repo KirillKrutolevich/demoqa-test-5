@@ -1,20 +1,20 @@
-package Pages;
+package pages;
 
+import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.SelenideElement;
 import components.CalendarComponent;
 
+import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
 
 public class RegistrationPage {
-
-
     SelenideElement
             firstNameInput = $("#firstName"),
             lastNameInput = $("#lastName"),
             userEmailInput = $("#userEmail"),
-            userGender = $("[for=gender-radio-1]"),
+            userGenderSelect =$("#genterWrapper"),
             userNumberInput = $("#userNumber"),
             userHobbies = $("[for='hobbies-checkbox-1']"),
             userSubjectsInput = $("#subjectsInput"),
@@ -24,9 +24,11 @@ public class RegistrationPage {
             userState1 = $("#react-select-3-input"),
             city = $("#city"),
             userCity = $("#react-select-4-input"),
-            submit = $("#submit");
+            submit = $("#submit"),
+            thanksForRegistration = $("#example-modal-sizes-title-lg"),
+            resultRegistration = $(".table-responsive");
 
-    public CalendarComponent CalendarComponent = new CalendarComponent();
+    public components.CalendarComponent CalendarComponent = new CalendarComponent();
 
     public RegistrationPage openPage() {
         open("https://demoqa.com/automation-practice-form");
@@ -53,8 +55,8 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage selectUserGender() {
-        userGender.click();
+    public RegistrationPage selectUserGender(String userGender) {
+        userGenderSelect.$(byText(userGender)).click();
 
         return this;
     }
@@ -106,7 +108,7 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage City(){
+    public RegistrationPage  chooseCity(){
         city.click();
 
         return this;
@@ -118,14 +120,30 @@ public class RegistrationPage {
         return this;
     }
 
-    public RegistrationPage Submit(){
+    public RegistrationPage submit(){
         submit.click();
 
         return this;
+    }
+
+    public RegistrationPage submittedForm (String submitText){
+        thanksForRegistration.shouldHave(text(submitText));
+
+        return this;
+    }
+
+    public RegistrationPage checkResult(String value) {
+        resultRegistration.shouldHave(text(value));
+
+        return this;
+
     }
 
 
 
 
 
+
 }
+
+

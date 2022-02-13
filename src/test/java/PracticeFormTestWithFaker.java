@@ -1,14 +1,13 @@
-import Pages.RegistrationPage;
 import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import pages.RegistrationPage;
 
 
 public class PracticeFormTestWithFaker {
 
-     RegistrationPage registrationPage = new RegistrationPage();
+    RegistrationPage registrationPage = new RegistrationPage();
      Faker faker = new Faker();
 
     @BeforeAll
@@ -20,6 +19,7 @@ public class PracticeFormTestWithFaker {
     String firstName = faker.name().firstName();
     String lastName = faker.name().lastName();
     String userEmail = faker.internet().emailAddress();
+    String userGender = "Male";
     String userNumber = faker.number().digits(10);
     String currentAddress = faker.address().cityName();
     String userSubjects = "Arts";
@@ -34,18 +34,32 @@ public class PracticeFormTestWithFaker {
         .typeFirstName(firstName)
         .typeLastName(lastName)
         .typeUserEmailInput(userEmail)
-        .selectUserGender()
-        .typeUserNumber(userNumber);
-        registrationPage.dateOfBirth();
-        registrationPage.selectUserHobbies()
+        .selectUserGender(userGender)
+        .typeUserNumber(userNumber)
+        .dateOfBirth()
+        .selectUserHobbies()
         .userSubjectsInput(userSubjects)
         .uploadUserPicture(fileName)
         .currentAddress(currentAddress)
         .userStateSelect()
         .userState1(State)
-        .City()
+        .chooseCity()
         .selectCity(City)
-        .Submit();
+        .submit()
+
+        .submittedForm("Thanks for submitting the form")
+        .checkResult(firstName)
+        .checkResult(lastName)
+        .checkResult(userEmail)
+        .checkResult(userGender)
+        .checkResult(currentAddress)
+        .checkResult(userNumber)
+        .checkResult(userSubjects)
+        .checkResult(fileName)
+        .checkResult(State)
+        .checkResult(City)
+        .checkResult("12 November,1996");
+
     }
 
 }
